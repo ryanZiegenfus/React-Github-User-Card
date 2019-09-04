@@ -1,16 +1,26 @@
 import React from 'react';
-import CardMod from "./Card"
+import CardMod from "./Card";
+import './App.css';
 
-export default function CardList(props){
-            return (
-            <div>
-                {console.log(props)}
+function CardList(props){
+    return (
+        <div className="cardList">
+            <CardMod 
+                image={props.user.data.avatar_url}
+                header={props.user.data.name}
+                meta={`Followers: ${props.user.data.followers}`}
+                description={`Location: ${props.user.data.location}`}
+            />
+            {props.followers.map((element, index) => 
                 <CardMod 
-                    image={props.user.avatar_url}
-                    header={props.user.name}
-                    meta={`Followers: ${props.user.followers}`}
-                    description={`Location: ${props.user.location}`}
+                    image={element.avatar_url}
+                    header={element.login}
+                    description={`Follower ID: ${index}`}
+                    key={element.id}
                 />
-            </div>
-        )
+            )}
+        </div>
+    ) 
 }
+
+export default CardList

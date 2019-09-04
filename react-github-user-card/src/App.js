@@ -7,26 +7,25 @@ class App extends React.Component {
   constructor() {
     super();
     this.state = {
-      users: {},
-      followers: {}
+      personal: {data: ""},
+      followers: []
     }
   }
 
   componentDidMount() {
     axios.get('https://api.github.com/users/ryanZiegenfus')
-    .then (res => this.setState({users: res}))
-    .then(res => axios.get(this.state.users.data.followers_url).then(response => this.setState({followers: response})))
-    .then(res => {console.log(this.state.users.data, this.state.followers.data)})
+    .then (res => this.setState({personal: res}))
+    axios.get('https://api.github.com/users/ryanZiegenfus/followers')
+    .then (res => this.setState({followers: res.data}))
   }
 
   render() {
-    return (
-      <div className="App">
-        <CardList user={this.state.users.data} followers={this.state.followers.data}/>
-      </div>
-    );
+      return (
+        <div className="App">
+          <CardList user={this.state.personal} followers={this.state.followers}/>
+        </div>
+      );
   }
-
 }
 
 export default App;
